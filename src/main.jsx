@@ -5,9 +5,13 @@ import 'mdb-react-ui-kit/dist/css/mdb.min.css';
 import "@fortawesome/fontawesome-free/css/all.min.css";
 import { Provider } from 'react-redux';
 import { store } from './App/Store.jsx';
+import { BrowserRouter } from 'react-router-dom';
 
 ReactDOM.createRoot(document.getElementById('root')).render(
-  <Provider store={store} >
+  <BrowserRouter>
+   <Provider store={store} >
     <App />
-  // </Provider>
+   </Provider>
+  </BrowserRouter>
+ 
 )

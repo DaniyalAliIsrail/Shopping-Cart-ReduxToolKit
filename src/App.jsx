@@ -1,17 +1,20 @@
-import { useSelector } from 'react-redux'
+import { Route, Routes } from 'react-router-dom'
 import './App.css'
 import Navbar from './Components/Navbar'
 import ProductCard from './Components/ProductCard'
+import CartPage from './Components/CartPage'
 
 
 function App() {
-  const item = useSelector((state)=>{
-    console.log(state.allcarts);
-  })
+
   return (
+    // <ProductCard />
     <>
     <Navbar/>
-    <ProductCard/>
+      <Routes>
+        <Route index element={<ProductCard />} />
+        <Route path='/cart' element={<CartPage/>} />
+      </Routes>
     </>
   )
 }
