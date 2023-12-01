@@ -1,25 +1,34 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import "../Components/cartpage.modular.css"
-import { useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
+import { gettotalCart , removeItem , increaseItemQuantity, removeItemQunatity } from '../features/cartSlice'
+
 
 const CartPage = () => {
-
-
   const cart = useSelector((state) => {
     console.log(state.allcarts);
-    return state.allcarts;
+    return state.allcarts.cart;
   });
+
+  const dispatch = useDispatch()
+  useEffect(()=>{
+    dispatch(gettotalCart())
+  },[cart])
+
   const totalQuantity = useSelector((state) => {
     console.log( state.allcarts.totalQuantity);
+    console.log( "totalquantity",state.allcarts.totalQuantity);
     return  state.allcarts.totalQuantity;
   });
+  console.log(totalQuantity);
+
   const totalPrice = useSelector((state) => {
     console.log(state.allcarts.totalPrice);
+    console.log("totalPrice",state.allcarts.totalPrice);
     return state.allcarts.totalPrice;
   });
- 
 
-
+  const d = useDispatch()
 
 
 
@@ -30,13 +39,12 @@ const CartPage = () => {
           <div className="container py-5">
             <div className="row d-flex justify-content-center my-4">
 
-
               <div className="col-md-8">
                 <div className="card mb-4">
                   <div className="card-header py-3">
-                    <h5 className="mb-0">Cart items</h5>
+                    <h5 className="mb-0">Cart items : { totalQuantity   }</h5>
                   </div>
-                  {cart?.items?.map((item) => (
+                  {cart?.map((item) => (
                     <div key={item.id} className="card-body">
 
                       <div className="row">
@@ -61,6 +69,8 @@ const CartPage = () => {
                             type="button"
                             className="btn btn-primary btn-sm me-1 mb-2"
                             title="Remove item"
+                            onClick={()=> dispatch(removeItem(item.id))}
+                          
                           >
                             <i className="fas fa-trash"></i>
                           </button>
@@ -71,11 +81,8 @@ const CartPage = () => {
                             className="d-flex mb-4"
                             style={{ maxWidth: "300px" }}
                           >
-                            <button
-                              className="btn btn-primary px-3 me-2"
-
-
-                            >
+                            <button  onClick={()=> dispatch(removeItemQunatity(item.id))}
+                              className="btn btn-primary px-3 me-2">
                               <i className="fas fa-minus"></i>
                             </button>
 
@@ -84,7 +91,7 @@ const CartPage = () => {
                                 id="form1"
                                 min="0"
                                 name="quantity"
-                                value="110"
+                                value={item.quantity}
                                 type="number"
                                 className="form-control"
                                 onChange={() => null}
@@ -95,8 +102,8 @@ const CartPage = () => {
                             </div>
 
                             <button
+                            onClick={()=> dispatch(increaseItemQuantity(item.id))}
                               className="btn btn-primary px-3 ms-2"
-
                             >
                               <i className="fas fa-plus"></i>
                             </button>
@@ -114,10 +121,9 @@ const CartPage = () => {
                     </div>
                   ))}
                 </div>
-              </div>
-
-              {/* 
-summary section */}
+              </div>     
+                                    {/* summary section */}
+                                            
               <div className="col-md-4">
 
                 <div className="card mb-4">
